@@ -46,6 +46,11 @@ def readAllStats():
     reads all interesting data from the Falcone dataset and returns it as a 
     pandas array
     """
+    if not os.path.exists(folder):
+        try:
+            os.system('tar -zxvf ' + folder[:-1] + '.tar.gz')
+        except:
+            raise NameError(folder+'does not exist. Confirm that the Falcone data is in the right place')
     data = pd.concat([read_falc_stats(filename = 'bas_classif.txt',
                     varlist = ['CLASS', 'AGGECOREGION', 'HYDRO_DISTURB_INDX', 
                          'NYEARS'],

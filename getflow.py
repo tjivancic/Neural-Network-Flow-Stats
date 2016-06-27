@@ -1,11 +1,17 @@
 import pandas as pd
 import flowstats as fs
+import os
 #def getPeakFileFromUSGS():
 
 def readPeakFile(peakfile):
     """
     reads a USGS peak streamflow file and returns a pandas dataframe
     """
+    if not os.path.exists(peakfile):
+        try:
+            os.system('tar -zxvf ' + peakfile + '.tar.gz')
+    except:
+            raise NameError(peakfile+'does not exist. Confirm that the flow data is in the right place')
     flowcsv = pd.read_csv(peakfile, sep='\t')
     flowframe = flowcsv[['site_no','peak_dt','peak_va']]
     flowframe = flowframe[flowframe['peak_va'].notnull()]
